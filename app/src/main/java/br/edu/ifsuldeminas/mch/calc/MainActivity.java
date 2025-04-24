@@ -59,7 +59,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         buttonDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                TextView expressao = findViewById(R.id.textViewUltimaExpressaoID); //BUSCA A EXPRESSAO
+                TextView expressao = findViewById(R.id.textViewResultadoID); //BUSCA A EXPRESSAO
                 String string = expressao.getText().toString(); //TRANSFORMA EM STRING
 
                 String txtExpressao = null;
@@ -74,7 +74,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                     expressao.setText(txtExpressao); //ATUALIZA O TEXTVIEW COM A NOVA EXPRESSAO
                 }
-                textViewResultado.setText(""); //LIMPA O CAMPO DE RESULTADO
+                //textViewResultado.setText(""); //LIMPA O CAMPO DE RESULTADO
             }
         });
 
@@ -83,7 +83,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void onClick(View view) {
                 try {
-                    String expressao = textViewUltimaExpressao.getText().toString();
+                    String expressao = textViewResultado.getText().toString();
 
                     if (expressao.contains("%")) { //AQUI CONTEM A LOGICA DO BOTAO PORCENTAGEM QUE TEM Q SER FEITO NA MAO.
                         String[] partes = expressao.split("%"); //SEPARA A EXPRESSAO EM DUAS PARTES TENDO O SIMBULO DE % COMO MEIO
@@ -92,7 +92,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             double num1 = Double.parseDouble(partes[0].trim()); //PRIMEIRA PARTE
                             double num2 = Double.parseDouble(partes[1].trim()); //SEGUNDA PARTE
 
-                            double resultado = num1 % num2; // RESTO DA DIVISAO
+                            double resultado = (num1/100) * num2; // RESTO DA DIVISAO
                             textViewResultado.setText(String.valueOf(resultado));
                         } else {
                             textViewResultado.setText("Erro");
@@ -101,6 +101,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     } else {
                         Calculable avaliadorExpressao = new ExpressionBuilder(expressao).build(); //CALCULO NORMAL DE QUALQUER EXPRESSAO USANDO O exp4j
                         Double resultado = avaliadorExpressao.calculate();
+                        textViewUltimaExpressao.setText(expressao);
                         textViewResultado.setText(resultado.toString());
                     }
 
@@ -146,12 +147,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             textViewUltimaExpressao.setText(" ");
         }
         if(limpar_dados){ //SE LIMPAR DADOS FOR TRUE ELE LIMPA O RESULTADO E ADICIONA O NOVO CARACTERE Á EXPRESSAO
-            textViewResultado.setText(" ");
-            textViewUltimaExpressao.append(string);
+            textViewResultado.append(string);
         }else{ //SE LIMPAR DADOS É FALSO É PORQUE O BOTAO É UM OPERADOR, E ADICIONA O OPERADOR Á EXPRESSAO
-            textViewUltimaExpressao.append(textViewResultado.getText());
-            textViewUltimaExpressao.append(string);
-            textViewResultado.setText(" ");
+            textViewResultado.append(string);
         }
     }
 
