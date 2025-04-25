@@ -141,62 +141,87 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     //MONTA TODAS AS EXPRESSOES
-    public void AcrescentarUmaExpressao(String string, boolean limpar_dados){ //STRING É O CARACTERE, LIMPAR DADOS LIMPA A TELA DEPENDENDO DO BOTAO
+    public void AcrescentarUmaExpressao(String string) {
+        String operadores = "+-*/%"; // SETA OS OPERADORES
+        String expressaoAtual = textViewResultado.getText().toString(); // SETA O QUE TEM NA EXPRESSAO ATUAL
 
-        if(textViewResultado.getText().equals("")){
-            textViewUltimaExpressao.setText(" ");
+        if (expressaoAtual.isEmpty()) {
+            if (operadores.contains(string) && !string.equals("-")) {
+                return; // EVITA INICIAR COM OPERADORES INVALIDOS, EXCETO "-"
+            }
+            if (string.equals("-")) {
+                textViewResultado.append(string); // PERMITE INICIAR COM "-" (NUMERO NEGATIVO)
+                return;
+            }
+            if (string.equals(".")) {
+                return; // EVITA INICIAR COM UM PONTO
+            }
         }
-        if(limpar_dados){ //SE LIMPAR DADOS FOR TRUE ELE LIMPA O RESULTADO E ADICIONA O NOVO CARACTERE Á EXPRESSAO
-            textViewResultado.append(string);
-        }else{ //SE LIMPAR DADOS É FALSO É PORQUE O BOTAO É UM OPERADOR, E ADICIONA O OPERADOR Á EXPRESSAO
-            textViewResultado.append(string);
+
+        // IMPEDIR DOIS PONTOS CONSECUTIVOS
+        if (string.equals(".") && expressaoAtual.endsWith(".")) {
+            return; // IGNORA SE O ÚLTIMO CARACTERE JÁ FOR UM PONTO
+        }
+
+        if (operadores.contains(string)) {
+            // INDICA QUE TENTAMOS ADICIONAR UM OPERADOR
+            if (!expressaoAtual.isEmpty()) {
+                char ultimoCaractere = expressaoAtual.charAt(expressaoAtual.length() - 1);
+                if (operadores.contains(Character.toString(ultimoCaractere))) {
+                    expressaoAtual = expressaoAtual.substring(0, expressaoAtual.length() - 1); // REMOVE O ULTIMO OPERADOR
+                    textViewResultado.setText(expressaoAtual);
+                }
+            }
+            textViewResultado.append(string); // ADICIONA O NOVO OPERADOR
+        } else {
+            textViewResultado.append(string); // SE FOR NUMERO OU PONTO VÁLIDO, SÓ ADICIONA
         }
     }
+
+
+
 
     //PERMITE ATRIBUIR O VALOR CORRETO Á TELA DE EXPRESSOES CASO CADA BOTAO SEJA PRESSIONADO
     @Override
     public void onClick(View view) {
         int id = view.getId();
-        if (id == R.id.buttonZeroID) {
-            AcrescentarUmaExpressao("0", true);
-        } else if (id == R.id.buttonUmID) {
-            AcrescentarUmaExpressao("1", true);
-        } else if (id == R.id.buttonDoisID) {
-            AcrescentarUmaExpressao("2", true);
-        } else if (id == R.id.buttonTresID) {
-            AcrescentarUmaExpressao("3", true);
-        } else if (id == R.id.buttonQuatroID) {
-            AcrescentarUmaExpressao("4", true);
-        } else if (id == R.id.buttonCincoID) {
-            AcrescentarUmaExpressao("5", true);
-        } else if (id == R.id.buttonSeisID) {
-            AcrescentarUmaExpressao("6", true);
-        } else if (id == R.id.buttonSeteID) {
-            AcrescentarUmaExpressao("7", true);
-        } else if (id == R.id.buttonOitoID) {
-            AcrescentarUmaExpressao("8", true);
-        } else if (id == R.id.buttonNoveID) {
-            AcrescentarUmaExpressao("9", true);
-        } else if (id == R.id.buttonVirgulaID) {
-            AcrescentarUmaExpressao(".", true);
-        } else if (id == R.id.buttonSomaID) {
-            AcrescentarUmaExpressao("+", false);
-        } else if (id == R.id.buttonSubtracaoID) {
-                AcrescentarUmaExpressao("-", false);
-        } else if (id == R.id.buttonMultiplicacaoID) {
-            AcrescentarUmaExpressao("*", false);
-        } else if (id == R.id.buttonDivisaoID) {
-            AcrescentarUmaExpressao("/", false);
-        } else if (id == R.id.buttonPorcentoID) {
-            AcrescentarUmaExpressao("%", false);
-        }
 
+        if (id == R.id.buttonZeroID) {
+            AcrescentarUmaExpressao("0");
+        } else if (id == R.id.buttonUmID) {
+            AcrescentarUmaExpressao("1");
+        } else if (id == R.id.buttonDoisID) {
+            AcrescentarUmaExpressao("2");
+        } else if (id == R.id.buttonTresID) {
+            AcrescentarUmaExpressao("3");
+        } else if (id == R.id.buttonQuatroID) {
+            AcrescentarUmaExpressao("4");
+        } else if (id == R.id.buttonCincoID) {
+            AcrescentarUmaExpressao("5");
+        } else if (id == R.id.buttonSeisID) {
+            AcrescentarUmaExpressao("6");
+        } else if (id == R.id.buttonSeteID) {
+            AcrescentarUmaExpressao("7");
+        } else if (id == R.id.buttonOitoID) {
+            AcrescentarUmaExpressao("8");
+        } else if (id == R.id.buttonNoveID) {
+            AcrescentarUmaExpressao("9");
+        } else if (id == R.id.buttonVirgulaID) {
+            AcrescentarUmaExpressao(".");
+        } else if (id == R.id.buttonSomaID) {
+            AcrescentarUmaExpressao("+");
+        } else if (id == R.id.buttonSubtracaoID) {
+            AcrescentarUmaExpressao("-");
+        } else if (id == R.id.buttonMultiplicacaoID) {
+            AcrescentarUmaExpressao("*");
+        } else if (id == R.id.buttonDivisaoID) {
+            AcrescentarUmaExpressao("/");
+        } else if (id == R.id.buttonPorcentoID) {
+            AcrescentarUmaExpressao("%");
+        }
     }
 }
-
-
-
-
+//PEGADINHA DO 0 NO TEXTVIEW PADRAO, DE PROPÓSITO?
 
 
 

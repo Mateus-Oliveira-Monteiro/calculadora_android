@@ -286,7 +286,7 @@
         android:layout_width="wrap_content"
         android:layout_height="80dp"
         android:gravity="center_vertical|right"
-        android:text="0"
+        android:text=""
         android:textAlignment="gravity"
         android:textSize="@dimen/text_view_result_text_size"
         app:layout_constraintBottom_toTopOf="@+id/splitLineHorizontalID"
